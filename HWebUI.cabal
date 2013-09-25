@@ -23,7 +23,7 @@ Flag examples
 library
   GHC-Options: -Wall
   hs-source-dirs:      src
-  exposed-modules:     HWebUI, GUIValue, GUIEvent, GUICommand, GUISignal, Messaging, Server, Widgets, Wires
+  exposed-modules:     HWebUI, GUIValue, GUIEvent, GUICommand, GUISignal, Messaging, Server, Widgets, Wires, WidgetWires
   -- other-modules:
   extensions:
                        TemplateHaskell,
@@ -45,7 +45,8 @@ library
                        wai-websockets,
                        websockets,
                        yesod >= 1.2,
-                       mtl
+                       mtl,
+                       ghc
 
 executable HWebUI-example-counter
   GHC-Options: -Wall
@@ -55,7 +56,9 @@ executable HWebUI-example-counter
                        containers,
                        HWebUI,
                        netwire,
-                       yesod >= 1.2
+                       yesod >= 1.2,
+                       ghc
+
   if flag(examples)
     buildable: True
   else
