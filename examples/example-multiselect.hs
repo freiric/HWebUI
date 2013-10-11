@@ -14,14 +14,14 @@ atof instr = case reads instr of
      [(f, x)] -> f
       
 guiDefinition = do
-    multiSelect <- hwuMultiSelect [width := 350]
-    buttonStart <- hwuButton [label := "Start"]
-    out <- hwuHtml []
+    multiSelect <- hwuMultiSelect 
+    buttonStart <- hwuButton
+    out <- hwuHtml
 
     -- define layout 
 
     let guiLayout = do    
-        
+        let butttonStartW = hwuLayout buttonStart [label := "Start"]
         -- a table with the entry fields (as text) the operator and the result
         [whamlet|
               <H1>HWebUI - MultiSelect Example
@@ -30,11 +30,11 @@ guiDefinition = do
         [whamlet|
          <table>
            <tr>
-             <td>^{hwuLayout buttonStart}
+             <td>^{butttonStartW}
          |]
         
-        hwuLayout multiSelect
-        hwuLayout out
+        hwuLayout multiSelect [width := 350]
+        hwuLayout out []
 
     -- define functionality 
         

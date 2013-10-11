@@ -9,27 +9,29 @@ import HWebUI
 
 guiDefinition = do
          -- define GUI Elements 
-         buttonUp <- hwuButton [label := "Counter Up"]
-         buttonDown <- hwuButton [label := "Counter Down"]
-         outHtml <- hwuHtml []
+         buttonUp <- hwuButton
+         buttonDown <- hwuButton
+         outHtml <- hwuHtml
      
          -- define layout
          let guiLayout = do    
-                      
+             let buttonUpW = hwuLayout buttonUp [label := "Counter Up"]
+                 buttonDownW = hwuLayout buttonDown [label := "Counter Down"]
+                 outHtmlW = hwuLayout outHtml []
              -- buttons
              [whamlet|
                    <H1>HWebUI - Counter Example
                    The following buttons increase and decrease the counter:
                          |]
-             (hwuLayout buttonUp)
-             (hwuLayout buttonDown)
+             (buttonUpW)
+             (buttonDownW)
      
              -- finally the output text as html
              [whamlet|
                    <p>And here the output value: 
                    <p>
              |]
-             (hwuLayout outHtml) 
+             outHtmlW
      
          -- define functionality
 --         let guiWire = do

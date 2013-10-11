@@ -64,20 +64,26 @@ onChangeJust b work = if b then Just work else Nothing
 guiDefinition = do
 
     -- define gui elements
-    textBoxFilterPrefix <- hwuTextBox []
-    textBoxPrename <- hwuTextBox []
-    textBoxSurname <- hwuTextBox []
-    textareaDescr <- hwuTextarea []
+    textBoxFilterPrefix <- hwuTextBox
+    textBoxPrename <- hwuTextBox
+    textBoxSurname <- hwuTextBox
+    textareaDescr <- hwuTextarea
     
-    multiSelectEntries <- hwuMultiSelect [width := 350]
+    multiSelectEntries <- hwuMultiSelect
     
-    buttonCreate <- hwuButton [label := "Create Entry"]
-    buttonDelete <- hwuButton [label := "Delete Entry"]
+    buttonCreate <- hwuButton
+    buttonDelete <- hwuButton
         
     -- define layout 
         
     let guiLayout = do    
-        
+        let textBoxFilterPrefixW = hwuLayout textBoxFilterPrefix []
+            textBoxPrenameW = hwuLayout textBoxPrename []
+            textBoxSurnameW = hwuLayout textBoxSurname []
+            textareaDescrW = hwuLayout textareaDescr []
+            multiSelectEntriesW = hwuLayout multiSelectEntries [width := 350]
+            buttonCreateW = hwuLayout buttonCreate [label := "Create Entry"]
+            buttonDeleteW = hwuLayout buttonDelete [label := "Delete Entry"]
         -- a table with the entry fields (as text) the operator and the result
         [whamlet|
               <H1>HWebUI - CRUD Example
@@ -88,20 +94,20 @@ guiDefinition = do
          <table>
            <tr>
              <td>Filter Prefix:
-             <td>^{hwuLayout textBoxFilterPrefix}
+             <td>^{textBoxFilterPrefixW}
              <td>Name:
-             <td>^{hwuLayout textBoxPrename}
+             <td>^{textBoxPrenameW}
            <tr>        
              <td>
              <td>
              <td>Surname:
-             <td>^{hwuLayout textBoxSurname}
-         ^{hwuLayout textareaDescr}
-         ^{hwuLayout multiSelectEntries}
+             <td>^{textBoxSurnameW}
+         ^{textareaDescrW}
+         ^{multiSelectEntriesW}
          <table>    
            <tr>    
-             <td>^{hwuLayout buttonCreate}
-             <td>^{hwuLayout buttonDelete}
+             <td>^{buttonCreateW}
+             <td>^{buttonDeleteW}
          |]
 
 

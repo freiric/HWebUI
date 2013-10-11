@@ -11,8 +11,8 @@ import Control.Monad.Trans (liftIO)
 import Data.Map (fromList)
 
 
-data WidgetWire a b = WidgetWire {
-        hwuLayout :: Widget,
+data WidgetWire a b c= WidgetWire {
+        hwuLayout :: [Property c] -> Widget,
         hwuWire :: GUIWire a b 
         }
 
@@ -44,32 +44,31 @@ putCMap cmap = do
         put $ GuiState cmap (idCounter gs)
         return ()
 
-updateState :: (String -> props -> Widget)
+updateState :: (String -> [Property c] -> Widget)
                -> (String -> GSChannelMap -> IO (GUIWire a b, GSChannelMap))
-               -> props
-               -> WWMonad (WidgetWire a b)
-updateState widget wire props = do
+               -> WWMonad (WidgetWire a b c)
+updateState widget wire = do
         elid <- freshId "hwuId"
         cmap <- getCMap
-        let l = widget elid props
+        let l = widget elid 
         (w, nmap) <- liftIO $ wire elid cmap
         putCMap nmap
         return $ WidgetWire l w
 
-hwuButton :: [Property Button] -> WWMonad (WidgetWire a a)
+hwuButton :: WWMonad (WidgetWire a a Button)
 hwuButton = updateState wButton buttonW
 
-hwuHtml :: [Property HtmlText] -> WWMonad (WidgetWire (Maybe String) String)
+hwuHtml :: WWMonad (WidgetWire (Maybe String) String HtmlText)
 hwuHtml = updateState wHtml htmlW
 
-hwuTextBox :: [Property TextBox] -> WWMonad (WidgetWire (Maybe String) String)
+hwuTextBox :: WWMonad (WidgetWire (Maybe String) String TextBox)
 hwuTextBox = updateState wTextBox textBoxW
 
-hwuTextarea :: [Property Textarea] -> WWMonad (WidgetWire (Maybe String) String)
+hwuTextarea :: WWMonad (WidgetWire (Maybe String) String Textarea)
 hwuTextarea = updateState wTextarea textareaW
 
-hwuRadioButton :: [Property RadioButton] -> WWMonad (WidgetWire (Maybe Bool) Bool)
+hwuRadioButton :: WWMonad (WidgetWire (Maybe Bool) Bool RadioButton)
 hwuRadioButton = updateState wRadioButton radioButtonW
 
-hwuMultiSelect :: [Property MultiSelect] -> WWMonad (WidgetWire (Maybe [(String, Bool, a)]) [a])
+hwuMultiSelect :: WWMonad (WidgetWire (Maybe [(String, Bool, a)]) [a] MultiSelect)
 hwuMultiSelect = updateState wMultiSelect multiSelectW

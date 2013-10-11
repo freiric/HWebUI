@@ -14,13 +14,14 @@ atof instr = case reads instr of
      [(f, x)] -> f
     
 guiDefinition = do
-    textBoxDollar <- hwuTextBox []
-    textBoxEuro <- hwuTextBox []
+    textBoxDollar <- hwuTextBox
+    textBoxEuro <- hwuTextBox
 
     -- define layout 
         
     let guiLayout = do    
-            
+        let textBoxDollarW = hwuLayout textBoxDollar[]
+            textBoxEuroW = hwuLayout textBoxEuro []
         -- a table with the entry fields (as text) the operator and the result
         [whamlet|
               <H1>HWebUI - Currency Example
@@ -31,10 +32,10 @@ guiDefinition = do
            <table>
                    <tr>
                      <td> US Dollars
-                     <td> ^{hwuLayout textBoxDollar}
+                     <td> ^{textBoxDollarW}
                    <tr>
                      <td> Euros
-                     <td> ^{hwuLayout textBoxEuro} 
+                     <td> ^{textBoxEuroW} 
                              |]
 
 
