@@ -15,16 +15,22 @@ atof instr = case reads instr of
       
 
 guiDefinition = do
-    textBoxArg1 <- hwuTextBox []
-    textBoxArg2 <- hwuTextBox []
-    radioButtonAdd <- hwuRadioButton [name := "operator", value := "opea", checked := True]        
-    radioButtonSub <- hwuRadioButton [name := "operator", value := "opes", checked := False]        
-    radioButtonMul <- hwuRadioButton [name := "operator", value := "opem", checked := False]        
-    radioButtonDiv <- hwuRadioButton [name := "operator", value := "oped", checked := False]       
-    out <- hwuHtml []
+    textBoxArg1 <- hwuTextBox
+    textBoxArg2 <- hwuTextBox
+    radioButtonAdd <- hwuRadioButton        
+    radioButtonSub <- hwuRadioButton        
+    radioButtonMul <- hwuRadioButton        
+    radioButtonDiv <- hwuRadioButton       
+    out <- hwuHtml
     
     let guiLayout = do    
-        
+        let textBoxArg1W = hwuLayout textBoxArg1 []
+            textBoxArg2W = hwuLayout textBoxArg2 []
+            radioButtonAddW = hwuLayout radioButtonAdd [name := "operator", value := "opea", checked := True]
+            radioButtonSubW = hwuLayout radioButtonSub [name := "operator", value := "opes", checked := False]
+            radioButtonMulW = hwuLayout radioButtonMul [name := "operator", value := "opem", checked := False]
+            radioButtonDivW = hwuLayout radioButtonDiv [name := "operator", value := "oped", checked := False]
+            outW = hwuLayout out []
         -- a table with the entry fields (as text) the operator and the result
         [whamlet|
               <H1>HWebUI - Arithmetics Example
@@ -35,18 +41,18 @@ guiDefinition = do
         [whamlet|
            <table>
              <tr>
-               <td> ^{hwuLayout textBoxArg1}
+               <td> ^{textBoxArg1W}
                <td>
                  <table>
                    <tr>
-                     <td>add ^{hwuLayout radioButtonAdd}
+                     <td>add ^{radioButtonAddW}
                    <tr>
-                     <td>sub ^{hwuLayout radioButtonSub}
+                     <td>sub ^{radioButtonSubW}
                    <tr>
-                     <td>mul ^{hwuLayout radioButtonMul}
+                     <td>mul ^{radioButtonMulW}
                    <tr>
-                     <td>div ^{hwuLayout radioButtonDiv}
-               <td> ^{hwuLayout textBoxArg2}
+                     <td>div ^{radioButtonDivW}
+               <td> ^{textBoxArg2W}
                              |]
 
 
@@ -55,7 +61,7 @@ guiDefinition = do
               <p>And here the output value: 
               <p>
         |]
-        (hwuLayout out)
+        (outW)
 
     
     let wireIn = proc _ -> do
